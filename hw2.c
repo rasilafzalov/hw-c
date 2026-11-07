@@ -1,45 +1,60 @@
 #include <stdio.h>
 #include <math.h>
+#include <stdbool.h>
+
+#define EPS 1e-9
+
+typedef struct{
+    double a;
+    double b;
+    double c;
+} Coefficients;
+
+bool is_zero(double var){
+    return fabs(var) < EPS;
+}
 
 
-void quadratic_equation(double D, double a, double b, double c){
-    if (D > 0){
-        double sqrt_D = sqrt(D);
-        double x_1 = ((-b)+sqrt_D)/(2*a);
-        double x_2 = ((-b)-sqrt_D)/(2*a);
-        printf("x_1 = %f\n x_2 = %f\n", x_1, x_2);
-    } else if (D == 0){
-        double x = (-b)/(2*a);
+void quadratic_equation(Coefficients eq){
+
+    double D = eq.b * eq.b -4 * eq.a * eq.c;
+
+    if (is_zero(D)){
+         double x = (-eq.b)/(2*eq.a);
         printf("x = %f\n", x);
+    } else if (D > 0){
+        double sqrt_D = sqrt(D);
+        double x_1 = ((-eq.b)+sqrt_D)/(2*eq.a);
+        double x_2 = ((-eq.b)-sqrt_D)/(2*eq.a);
+        printf("x_1 = %f\n x_2 = %f\n", x_1, x_2);
     } else {
         printf("Уравнение не имеет действительных корней\n");
     }
 }
 
-void linear_equation(double b, double c){
-    if (b==0 && c==0){
+void linear_equation(Coefficients eq){
+    if (is_zero(eq.b) && is_zero(eq.c)){
         printf("Бесконечно много решений\n");
-    } else if(b == 0) {
+    } else if(is_zero(eq.b)) {
         printf("Решений нет\n");
     } else {
-        double x = -(c/b);
+        double x = -(eq.c/eq.b);
         printf("x = %f\n", x);
     }
 } 
 
 int main(){
-    double a = 0.0, b = 0.0, c = 0.0;
+        Coefficients eq = {0.0, 0.0, 0.0};
 
     printf("Введите коэфициенты кваадратного уравнения в порядке a, b, c\n");
 
-    scanf("%lf %lf %lf", &a, &b, &c); 
+    scanf("%lf %lf %lf", &eq.a, &eq.b, &eq.c); 
 
-    double D = b*b - 4*a*c;
 
-    if (a==0){
-        linear_equation(b, c);
+    if (is_zero(eq.a)){
+        linear_equation(eq);
     } else {
-        quadratic_equation(D, a, b, c);
+        quadratic_equation(eq);
     }
     return 0;
 }
