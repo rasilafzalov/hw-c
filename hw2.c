@@ -4,14 +4,15 @@
 
 void quadratic_equation(double D, double a, double b, double c){
     if (D > 0){
-        double x_1 = ((-b)+sqrt(D))/(2*a);
-        double x_2 = ((-b)-sqrt(D))/(2*a);
-        printf("x_1 = %lf\n x_2 = %lf\n", x_1, x_2);
+        double sqrt_D = sqrt(D);
+        double x_1 = ((-b)+sqrt_D)/(2*a);
+        double x_2 = ((-b)-sqrt_D)/(2*a);
+        printf("x_1 = %f\n x_2 = %f\n", x_1, x_2);
     } else if (D == 0){
         double x = (-b)/(2*a);
-        printf("x = %lf\n", x);
+        printf("x = %f\n", x);
     } else {
-        printf("Уравнение не имеет действительных корней");
+        printf("Уравнение не имеет действительных корней\n");
     }
 }
 
@@ -22,7 +23,7 @@ void linear_equation(double b, double c){
         printf("Решений нет\n");
     } else {
         double x = -(c/b);
-        printf("x = %lf\n", x);
+        printf("x = %f\n", x);
     }
 } 
 
