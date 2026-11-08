@@ -8,53 +8,56 @@ typedef struct{
     double a;
     double b;
     double c;
-} Coefficients;
+    double x_1;
+    double x_2;
+}Coefficients;
 
 bool is_zero(double var){
     return fabs(var) < EPS;
 }
 
-
-void quadratic_equation(Coefficients eq){
-
-    double D = eq.b * eq.b -4 * eq.a * eq.c;
-
-    if (is_zero(D)){
-         double x = (-eq.b)/(2*eq.a);
-        printf("x = %f\n", x);
-    } else if (D > 0){
-        double sqrt_D = sqrt(D);
-        double x_1 = ((-eq.b)+sqrt_D)/(2*eq.a);
-        double x_2 = ((-eq.b)-sqrt_D)/(2*eq.a);
-        printf("x_1 = %f\n x_2 = %f\n", x_1, x_2);
-    } else {
-        printf("Уравнение не имеет действительных корней\n");
-    }
-}
-
-void linear_equation(Coefficients eq){
-    if (is_zero(eq.b) && is_zero(eq.c)){
+void linear_equation(Coefficients* equation){
+    if (is_zero(equation->b) && is_zero(equation->c)){
         printf("Бесконечно много решений\n");
-    } else if(is_zero(eq.b)) {
+    } else if(is_zero(equation->b)) {
         printf("Решений нет\n");
     } else {
-        double x = -(eq.c/eq.b);
-        printf("x = %f\n", x);
+        equation->x_1 = -(equation->c/equation->b);
+        printf("x = %f\n", equation->x_1);
     }
 } 
 
+void solve_equation(Coefficients* equation){
+
+    if (is_zero(equation->a)){
+        linear_equation(equation);
+    }else{
+
+    double D = equation->b * equation->b -4 * equation->a * equation->c;
+
+    if (is_zero(D)){
+         equation->x_1 = (-equation->b)/(2*equation->a);
+        printf("x = %f\n", equation->x_1);
+    } else if (D > 0){
+        double sqrt_D = sqrt(D);
+        equation->x_1 = ((-equation->b)+sqrt_D)/(2*equation->a);
+        equation->x_2 = ((-equation->b)-sqrt_D)/(2*equation->a);
+        printf("x_1 = %f\nx_2 = %f\n", equation->x_1, equation->x_2);
+    } else {
+        printf("Уравнение не имеет действительных корней\n");
+    }
+    
+    }
+}
+
 int main(){
-        Coefficients eq = {0.0, 0.0, 0.0};
+        Coefficients equation = {0};
 
     printf("Введите коэфициенты кваадратного уравнения в порядке a, b, c\n");
 
-    scanf("%lf %lf %lf", &eq.a, &eq.b, &eq.c); 
+    scanf("%lf %lf %lf", &equation.a, &equation.b, &equation.c); 
 
 
-    if (is_zero(eq.a)){
-        linear_equation(eq);
-    } else {
-        quadratic_equation(eq);
-    }
+    solve_equation(&equation);
     return 0;
 }
